@@ -39,11 +39,14 @@ if (is_nasdaq_open(dt1) == True):
     print "Running scraper routine..."
     for i in range(0, len(new_symbol_list)):
         url = "http://download.finance.yahoo.com/d/quotes.csv?s=" + new_symbol_list[i] + "&f=e1aa2a5bb4b6cc1dd1ee7e8e9f6ghjj1j2j4j5j6kk3k4k5l1mm3m4m5m6m7m8opp2p5p6qrr1r5r6r7ss6s7t1t8vwxyn=.csv"
-        htmlfile = urllib.urlopen(url)
-        htmltext = htmlfile.read()
-        price_file = open("U:\\html\\ggi_root\\home2\\greyhau1\\scraper\\st_log\\local_test\\" +new_symbol_list[i] +".csv", 'a+')
-        price_file.write(str(dt1.year) + "-" + str(dt1.month) + "-" + str(dt1.day) + "," + htmltext)
-        price_file.close()
+        try:
+            htmlfile = urllib.urlopen(url)
+            htmltext = htmlfile.read()
+            price_file = open("U:\\html\\ggi_root\\home2\\greyhau1\\scraper\\st_log\\local_test\\" +new_symbol_list[i] +".csv", 'a+')
+            price_file.write(str(dt1.year) + "-" + str(dt1.month) + "-" + str(dt1.day) + "," + htmltext)
+            price_file.close()
+        except urllib.error.URLError, e:
+            print "There was a problem with [" + new_symbol_list[i] + "]. You will need to manually input this data."
         time.sleep(3)
         i +=1
     dt2 = datetime.datetime.now()
